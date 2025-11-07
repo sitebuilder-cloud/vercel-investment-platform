@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlobalFX Invest - World-Class Crypto & Forex Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.5.0/sql-wasm.min.js"></script>
+  <style>
+    body { background-color: #0f172a; color: white; }
+    .hero-bg { background-image: url('https://source.unsplash.com/random/1600x900/?crypto'); background-size: cover; background-position: center; }
+  </style>
+</head>
+<body class="font-sans">
+  <!-- Header -->
+  <header class="bg-blue-600 p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">GlobalFX Invest</h1>
+      <nav class="hidden md:flex space-x-6">
+        <a href="#" class="hover:text-blue-200">Home</a>
+        <a href="#" class="hover:text-blue-200">About</a>
+        <a href="#" class="hover:text-blue-200">Testimonials</a>
+        <a href="#" class="hover:text-blue-200">Contact</a>
+      </nav>
+      <button onclick="showLogin()" class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-blue-100">Login</button>
+      <button onclick="showRegister()" class="bg-blue-700 px-4 py-2 rounded hover:bg-blue-800 ml-2">Register</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-800 text-center">
+    <h2 class="text-4xl md:text-6xl font-bold mb-6">Invest in the Future</h2>
+    <p class="text-xl mb-8 max-w-3xl mx-auto">Join thousands of traders worldwide. High returns, low risk, live market access.</p>
+    <button onclick="showRegister()" class="bg-white text-blue-600 px-8 py-3 rounded-full text-lg font-bold hover:bg-blue-100 transition">Start Investing Now</button>
+  </section>
+
+  <!-- Market Charts -->
+  <section class="py-12 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h3 class="text-2xl font-bold mb-6 text-center">Live Market Trends</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h4 class="font-bold text-lg">BTC/USD</h4>
+          <canvas id="btcChart" width="200" height="100"></canvas>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h4 class="font-bold text-lg">ETH/USD</h4>
+          <canvas id="ethChart" width="200" height="100"></canvas>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h4 class="font-bold text-lg">EUR/USD</h4>
+          <canvas id="eurChart" width="200" height="100"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h3 class="text-2xl font-bold mb-8 text-center">Trusted by Thousands</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-6 rounded-lg">
+          <p class="italic">"I made $12,000 in 3 months with GlobalFX. The platform is reliable and fast."</p>
+          <p class="mt-4 font-bold">— John D., USA</p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg">
+          <p class="italic">"The support team is responsive and the live trading features are impressive."</p>
+          <p class="mt-4 font-bold">— Maria L., Spain</p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg">
+          <p class="italic">"From beginner to pro — this platform helped me grow my investment skills."</p>
+          <p class="mt-4 font-bold">— Alex K., Canada</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black py-8 text-center text-gray-400">
+    <p>&copy; 2025 GlobalFX Invest. All rights reserved.</p>
+    <p>Contact: <a href="mailto:vp89735270@hotmail.com" class="text-blue-400 hover:underline">vp89735270@hotmail.com</a></p>
+  </footer>
+
+  <!-- Modals -->
+  <div id="loginModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-xl font-bold mb-4">Login to Your Account</h2>
+      <form id="loginForm">
+        <input type="email" placeholder="Email" required class="w-full p-2 mb-2 border rounded"/>
+        <input type="password" placeholder="Password" required class="w-full p-2 mb-2 border rounded" id="loginPass"/>
+        <label class="flex items-center cursor-pointer mb-4">
+          <input type="checkbox" id="showPass" class="mr-2"/> Show Password
+        </label>
+        <button type="submit" class="bg-blue-600 text-white p-2 rounded w-full">Login</button>
+      </form>
+      <p class="mt-4 text-sm">Don’t have an account? <a href="#" onclick="showRegister()">Register</a></p>
+    </div>
+  </div>
+
+  <div id="registerModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-xl font-bold mb-4">Create Account</h2>
+      <form id="registerForm">
+        <input type="email" placeholder="Email" required class="w-full p-2 mb-2 border rounded"/>
+        <input type="text" placeholder="Username" required class="w-full p-2 mb-2 border rounded"/>
+        <input type="password" placeholder="Password" required class="w-full p-2 mb-2 border rounded" id="regPass"/>
+        <button type="submit" class="bg-blue-600 text-white p-2 rounded w-full">Register</button>
+      </form>
+      <p class="mt-4 text-sm">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Chart.js initialization
+    const btcCtx = document.getElementById('btcChart').getContext('2d');
+    new Chart(btcCtx, {
+      type: 'line',
+      data: {
+        labels: Array.from({length: 10}, (_, i) => `T+${i}`),
+        datasets: [{
+          label: 'BTC/USD',
+          data: Array.from({length: 10}, () => Math.random() * 100 + 30000),
+          borderColor: '#FFA500',
+          tension: 0.3
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    const ethCtx = document.getElementById('ethChart').getContext('2d');
+    new Chart(ethCtx, {
+      type: 'line',
+      data: {
+        labels: Array.from({length: 10}, (_, i) => `T+${i}`),
+        datasets: [{
+          label: 'ETH/USD',
+          data: Array.from({length: 10}, () => Math.random() * 50 + 1800),
+          borderColor: '#6495ED',
+          tension: 0.3
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    const eurCtx = document.getElementById('eurChart').getContext('2d');
+    new Chart(eurCtx, {
+      type: 'line',
+      data: {
+        labels: Array.from({length: 10}, (_, i) => `T+${i}`),
+        datasets: [{
+          label: 'EUR/USD',
+          data: Array.from({length: 10}, () => Math.random() * 0.01 + 1.05),
+          borderColor: '#FF6347',
+          tension: 0.3
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    // Modal functions
+    function showLogin() {
+      document.getElementById('registerModal').classList.add('hidden');
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    function showRegister() {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('registerModal').classList.remove('hidden');
+    }
+
+    document.getElementById('showPass').addEventListener('change', function () {
+      const pass = document.getElementById('loginPass');
+      pass.type = this.checked ? 'text' : 'password';
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          window.location.href = 'dashboard.html';
+        } else {
+          alert(result.error);
+        }
+      } catch (err) {
+        alert('Network error');
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert(result.message);
+          showLogin();
+        } else {
+          alert(result.error);
+        }
+      } catch (err) {
+        alert('Network error');
+      }
+    });
+  </script>
+</body>
+</html>
